@@ -22,3 +22,25 @@ Kod tabanı, sistem programlama pratiklerine uygun olarak modüler bir yapıda t
 Proje dizininde terminali açarak sadece `make` yazmanız yeterlidir:
 ```bash
 make
+Temiz bir derleme yapmak veya üretilen nesne dosyalarını silmek için make clean komutunu kullanabilirsiniz.
+
+2. Arşivleme Modu (-b)
+Birden fazla metin dosyasını tek bir arşivde toplamak için:
+
+Bash
+./tarsau -b dosya1.txt dosya2.dat -o s1.sau
+-o parametresi verilmezse, program varsayılan olarak a.sau adını kullanır.
+
+Giriş dosyalarının toplam boyutu 200 MB'ı, dosya sayısı 32'yi geçemez. Giriş dosyaları yalnızca 1 baytlık ASCII karakterlerden oluşabilir.
+
+3. Arşivden Çıkarma Modu (-a)
+Oluşturulan bir .sau arşivini belirli bir klasöre veya mevcut dizine açmak için:
+
+Bash
+./tarsau -a s1.sau d1
+d1 adında bir dizin mevcut değilse otomatik olarak oluşturulur ve dosyalar orijinal izin maskeleriyle (okuma/yazma/çalıştırma) bu dizine yerleştirilir.
+
+👥 Geliştirici Ekibi
+Nigar Abdullayeva - B231210561
+
+Elvin Valiyev - 
