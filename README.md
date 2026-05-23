@@ -20,7 +20,7 @@ Kod tabanı, sistem programlama pratiklerine uygun olarak modüler bir yapıda t
 
 ### 1. Derleme (Kompile Etme)
 Proje dizininde terminali açarak sadece `make` yazmanız yeterlidir:
-```bash
+
 make
 Temiz bir derleme yapmak veya üretilen nesne dosyalarını silmek için make clean komutunu kullanabilirsiniz.
 
