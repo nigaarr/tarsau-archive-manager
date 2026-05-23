@@ -1,51 +1,25 @@
-# ============================================================
-#  Makefile  –  tarsau projesi
-# ============================================================
- 
-# Derleyici ve bayraklar
-CC      = gcc
-CFLAGS  = -Wall -Wextra -std=c11 -pedantic
- 
-# Hedef calistirilabilir dosya
-TARGET  = tarsau
- 
-# Kaynak ve nesne dosyalari
-SRCS    = main.c archive.c utils.c
-OBJS    = $(SRCS:.c=.o)
- 
-# Baslik dosyalari (bagimliliklarda kullanilir)
-HDRS    = common.h archive.h utils.h
- 
-# ---- Varsayilan hedef: derleme --------------------------------
-all: $(TARGET)
- 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
-	@echo "Derleme tamamlandi: $(TARGET)"
- 
-# ---- Nesne dosyasi kurallari ----------------------------------
-main.o:    main.c    $(HDRS)
-	$(CC) $(CFLAGS) -c $< -o $@
- 
-archive.o: archive.c archive.h utils.h common.h
-	$(CC) $(CFLAGS) -c $< -o $@
- 
-utils.o:   utils.c   utils.h common.h
-	$(CC) $(CFLAGS) -c $< -o $@
- 
-# ---- Temizlik -------------------------------------------------
-clean:
-	rm -f $(OBJS) $(TARGET)
-	@echo "Temizlik tamamlandi."
- 
-# ---- Yeniden derleme ------------------------------------------
-rebuild: clean all
- 
-# ---- Basit kurulum (opsiyonel) --------------------------------
-install: $(TARGET)
-	cp $(TARGET) /usr/local/bin/$(TARGET)
-	@echo "$(TARGET) /usr/local/bin/ dizinine kuruldu."
- 
-uninstall:
-	rm -f /usr/local/bin/$(TARGET)
-	@echo "$(TARGET) kaldirildi."
+# ---- Makro Tanimlamalari (Slayt Sayfa 14) ----
+CC       = gcc
+CFLAGS   = -Wall -Wextra -std=c11 -pedantic -g
+OBJS     = main.o archive.o utils.o
+EXE      = tarsau
+
+# ---- Ana Derleme Hedefi (Slayt Sayfa 12-13) ----
+${EXE} : ${OBJS}
+	${CC} ${CFLAGS} -o ${EXE} ${OBJS}
+	@echo == Derleme islemi basari ile tamamlandi!.. ==
+
+# ---- Nesne Dosyalari ve Bagimliliklari (Slayt Sayfa 12) ----
+main.o : main.c common.h archive.h utils.h
+	${CC} ${CFLAGS} -c main.c
+
+archive.o : archive.c archive.h utils.h common.h
+	${CC} ${CFLAGS} -c archive.c
+
+utils.o : utils.c utils.h common.h
+	${CC} ${CFLAGS} -c utils.c
+
+# ---- Temizlik Hedefi (Slayt Sayfa 12) ----
+clean :
+	rm -f ${OBJS} ${EXE}
+	@echo == Temizlik tamamlandi. ==

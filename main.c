@@ -1,41 +1,47 @@
 /* ============================================================
- *  main.c  –  tarsau  :  Metin dosyasi arsivleyici
+ * main.c  –  tarsau  :  Metin dosyasi arsivleyici
  *
- *  Kullanim:
- *    tarsau -b <dosya1> [dosya2 ...] [-o <arsiv.sau>]
- *    tarsau -a <arsiv.sau> [hedef_dizin]
- *
- *  -b   : Belirtilen metin dosyalarini tek bir .sau arsivine paketter.
- *  -a   : Bir .sau arsivini belirtilen dizine (yoksa mevcut dizine) acar.
+ * Kullanim:
+ * tarsau -b <dosya1> [dosya2 ...] [-o <arsiv.sau>]
+ * tarsau -a <arsiv.sau> [hedef_dizin]
  * ============================================================ */
- 
+
 #include "common.h"
 #include "archive.h"
- 
+
 static void kullanimi_goster(const char *program_adi)
 {
     fprintf(stderr, "Kullanim:\n");
-    fprintf(stderr, "  %s -b <dosya1> [dosya2 ...] [-o <arsiv.sau>]\n",
-            program_adi);
-    fprintf(stderr, "  %s -a <arsiv.sau> [hedef_dizin]\n",
-            program_adi);
+    fprintf(stderr, "  %s -b <dosya1> [dosya2 ...] [-o <arsiv.sau>]\n", program_adi);
+    fprintf(stderr, "  %s -a <arsiv.sau> [hedef_dizin]\n", program_adi);
 }
- 
+
 int main(int argc, char *argv[])
 {
     if (argc < 2) {
         kullanimi_goster(argv[0]);
         return 1;
     }
- 
-    if (strcmp(argv[1], "-b") == 0)
+
+    // ARŞİVLEME MODU (-b)
+    if (strcmp(argv[1], "-b") == 0) {
         return cmd_bundle(argc, argv);
- 
-    if (strcmp(argv[1], "-a") == 0)
+    }
+
+    // ARŞİVDEN ÇIKARMA MODU (-a)
+    if (strcmp(argv[1], "-a") == 0) {
+        /* Hocanın Şartı: -a parametresinden sonra en fazla 2 parametre alabilir.
+         * Yani toplam argüman sayısı (argc) ya 3 (hedef dizinsiz) ya da 4 (hedef dizinli) olmalıdır.
+         * Eğer 4'ten büyükse (örneğin ekstra klasör veya parametre girildiyse) doğrudan reddedilir. */
+        if (argc != 3 && argc != 4) {
+            printf("Arşiv dosyası uygunsuz veya bozuk!\n");
+            return 1;
+        }
         return cmd_extract(argc, argv);
- 
-    fprintf(stderr,
-        "Hata: Bilinmeyen parametre '%s'.\n", argv[1]);
+    }
+
+    // HATALI PARAMETRE DURUMU
+    fprintf(stderr, "Hata: Bilinmeyen parametre '%s'.\n", argv[1]);
     kullanimi_goster(argv[0]);
     return 1;
-    }
+}
