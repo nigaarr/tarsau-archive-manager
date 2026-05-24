@@ -1,11 +1,3 @@
-/* ============================================================
- * main.c  –  tarsau  :  Metin dosyasi arsivleyici
- *
- * Kullanim:
- * tarsau -b <dosya1> [dosya2 ...] [-o <arsiv.sau>]
- * tarsau -a <arsiv.sau> [hedef_dizin]
- * ============================================================ */
-
 #include "common.h"
 #include "archive.h"
 
@@ -30,11 +22,8 @@ int main(int argc, char *argv[])
 
     // ARŞİVDEN ÇIKARMA MODU (-a)
     if (strcmp(argv[1], "-a") == 0) {
-        /* Hocanın Şartı: -a parametresinden sonra en fazla 2 parametre alabilir.
-         * Yani toplam argüman sayısı (argc) ya 3 (hedef dizinsiz) ya da 4 (hedef dizinli) olmalıdır.
-         * Eğer 4'ten büyükse (örneğin ekstra klasör veya parametre girildiyse) doğrudan reddedilir. */
         if (argc != 3 && argc != 4) {
-            printf("Arşiv dosyası uygunsuz veya bozuk!\n");
+            printf("Fazladan parametre girdiniz\n");
             return 1;
         }
         return cmd_extract(argc, argv);
