@@ -1,46 +1,44 @@
-# TarSau Arşiv Yöneticisi (tarsau)
 
-Bu proje, Sakarya Üniversitesi Bilgisayar Mühendisliği Bölümü **Sistem Programlama** dersi (2025-2026 Bahar Dönemi) kapsamında geliştirilmiştir. Projenin amacı; Linux/Unix ortamında C dili kullanarak, `tar` veya `zip` mantığıyla çalışan fakat sıkıştırma yapmadan birden fazla metin dosyasını tek bir arşiv dosyasında (`*.sau`) birleştiren ve geri ayıklayan modüler bir sistem programı oluşturmaktır.
-
+  ### ==Önemli Bilgilendirme==
+  ### 'chmod' ile işlem yapabilmeniz için uygulama NTFS dosya sistemi içerisinde çalıştırılMAMAlıdır.
 ---
+### Bu ödev WSL de çalıştırılmak üzere tasarlanmıştır.
 
-## 🛠️ Proje Mimarisi
 
-Kod tabanı, sistem programlama pratiklerine uygun olarak modüler bir yapıda tasarlanmıştır:
+ 1. Linux ortamına geçin:
+```
+   cd ~
+```
 
-* **`tarsau.h`**: Projede kullanılan tüm sistem kütüphanelerini, `MAX_FILES` (32) ve `MAX_TOTAL_SIZE` (200MB) gibi kısıtlamaları ve fonksiyon prototiplerini barındıran başlık dosyası.
-* **`main.c`**: Komut satırından gelen parametreleri (`-b`, `-a`, `-o`) ayrıştıran ve ilgili modülü tetikleyen ana giriş kapısı.
-* **`archive.c`**: Arşivleme (`-b`) işlevini üstlenir. Giriş dosyalarının ASCII formatında olup olmadığını kontrol eder, boyut analizi yapar ve `.sau` formatına uygun organizasyon (header) yapısıyla dosyaları birleştirir.
-* **`extract.c`**: Arşivden çıkarma (`-a`) işlevini üstlenir. `.sau` uzantılı dosyayı çözümler, metadata alanını ayrıştırarak dosyaları orijinal isimleri, içerikleri ve Linux erişim izinleriyle (`chmod`) hedef dizine çıkartır.
-* **`Makefile`**: Projenin otomatik ve hatasız bir şekilde derlenmesini sağlayan derleme betiği.
+2. Repo yu kopyalayın:
+```
+git clone https://github.com/nigaarr/tarsau-archive-manager.git
+```
 
----
+3. Proje klasörüne gelin:
+````
+cd tarsau-archive-manager
+````
 
-## 🚀 Çalıştırma ve Kullanım Talimatları
+4. Klasörü yetkilendirin: (make ile oluşmuş dosyayı çağırabilmek için)
+```
+chmod -R 755 .
+```
 
-### 1. Derleme (Kompile Etme)
-Proje dizininde terminali açarak sadece `make` yazmanız yeterlidir:
+5. Test Alanına geçin
+```
+cd test-alani
+```
 
-make
-Temiz bir derleme yapmak veya üretilen nesne dosyalarını silmek için make clean komutunu kullanabilirsiniz.
+```
+--Test alanında bulunan hazır .txt ler ile denemeler yapabilir, arşivleme ve arşivden çıkarma işlemlerinizi yapabilirsiniz
+```
 
-2. Arşivleme Modu (-b)
-Birden fazla metin dosyasını tek bir arşivde toplamak için:
+6. Uygulamayı test etmek için hazır komutlar:
+```
+../bin/tarsau -b dosya1.txt dosya2.txt dosya3.txt
+```
 
-Bash
-./tarsau -b dosya1.txt dosya2.dat -o s1.sau
--o parametresi verilmezse, program varsayılan olarak a.sau adını kullanır.
-
-Giriş dosyalarının toplam boyutu 200 MB'ı, dosya sayısı 32'yi geçemez. Giriş dosyaları yalnızca 1 baytlık ASCII karakterlerden oluşabilir.
-
-3. Arşivden Çıkarma Modu (-a)
-Oluşturulan bir .sau arşivini belirli bir klasöre veya mevcut dizine açmak için:
-
-Bash
-./tarsau -a s1.sau d1
-d1 adında bir dizin mevcut değilse otomatik olarak oluşturulur ve dosyalar orijinal izin maskeleriyle (okuma/yazma/çalıştırma) bu dizine yerleştirilir.
-
-👥 Geliştirici Ekibi
-Nigar Abdullayeva - B231210561
-
-Elvin Valiyev - 
+```
+../bin/tarsau -a a.sau ayiklananlar
+```

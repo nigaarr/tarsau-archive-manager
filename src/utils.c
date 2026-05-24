@@ -1,17 +1,8 @@
-/* ============================================================
- *  utils.c  –  Yardimci fonksiyon gerceklemeleri
- * ============================================================ */
- 
 #include "utils.h"
  
-/* ------------------------------------------------------------------ */
-/*  is_text_file                                                        */
-/*  Dosyayi ikili modda okuyarak her baytı ASCII metin kurallarina      */
-/*  gore denetler.                                                      */
-/*  Gecerli karakterler:                                                */
-/*    0x09  (TAB), 0x0A  (LF), 0x0D  (CR)                              */
-/*    0x20-0x7E (yazdirilebilir ASCII)                                  */
-/* ------------------------------------------------------------------ */
+
+// Dosyayi ikili modda okuyarak her baytı ASCII metin kurallarina gore denetler.                                                      */
+
 int is_text_file(const char *path)
 {
     FILE *f = fopen(path, "rb");
@@ -24,7 +15,7 @@ int is_text_file(const char *path)
         if (uc == 0x09 || uc == 0x0A || uc == 0x0D) continue;
         if (uc >= 0x20 && uc <= 0x7E)                continue;
  
-        /* Yukaridaki araliklar disindaki her bayt binary sayilir */
+        
         fclose(f);
         return 0;
     }
@@ -33,10 +24,8 @@ int is_text_file(const char *path)
     return 1;
 }
  
-/* ------------------------------------------------------------------ */
-/*  mode_to_str                                                         */
-/*  Ornek: 0755  →  "rwxr-xr-x"                                       */
-/* ------------------------------------------------------------------ */
+
+
 void mode_to_str(mode_t mode, char *buf)
 {
     buf[0] = (mode & S_IRUSR) ? 'r' : '-';
@@ -51,10 +40,7 @@ void mode_to_str(mode_t mode, char *buf)
     buf[9] = '\0';
 }
  
-/* ------------------------------------------------------------------ */
-/*  str_to_mode                                                         */
-/*  Ornek: "rwxr-xr-x"  →  0755                                       */
-/* ------------------------------------------------------------------ */
+
 mode_t str_to_mode(const char *buf)
 {
     mode_t m = 0;
@@ -74,11 +60,9 @@ mode_t str_to_mode(const char *buf)
     return m;
 }
  
-/* ------------------------------------------------------------------ */
-/*  mkdir_p                                                             */
-/*  Verilen yoldaki tum eksik dizinleri olusturur.                      */
-/*  Zaten var olan dizinler hata sayilmaz.                              */
-/* ------------------------------------------------------------------ */
+
+//  Verilen yoldaki tum eksik dizinleri olusturur.  
+
 int mkdir_p(const char *path)
 {
     char tmp[MAX_PATH];
