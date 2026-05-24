@@ -5,6 +5,7 @@
 #include "archive.h"
 #include "utils.h"
  
+
 /* ================================================================== */
 /*  cmd_bundle  :  Arşiv OLUSTURMA  (-b)                              */
 /*                                                                     */
@@ -53,13 +54,13 @@ int cmd_bundle(int argc, char *argv[])
         /* Varlik ve duzenli dosya kontrolu */
         if (stat(input_files[i], &st[i]) != 0 || !S_ISREG(st[i].st_mode)) {
             fprintf(stderr,
-                "%s giris dosyasinin formati uyumsuzdur!\n", input_files[i]);
+                "%s ->Boyle bir giris dosyasi mevcut degildir ve ya giris dosyasinin formati uyumsuzdur!\n", input_files[i]);
             return 1;
         }
         /* ASCII metin dosyasi kontrolu */
         if (!is_text_file(input_files[i])) {
             fprintf(stderr,
-                "%s giris dosyasinin formati uyumsuzdur!\n", input_files[i]);
+                "%s giris dosyasinin formati uyumsuzdur ve ya dosya Turkce Karakter içeriyor\n", input_files[i]);
             return 1;
         }
         /* Toplam boyut siniri */

@@ -1,25 +1,44 @@
-# ---- Makro Tanimlamalari (Slayt Sayfa 14) ----
 CC       = gcc
-CFLAGS   = -Wall -Wextra -std=c11 -pedantic -g
-OBJS     = main.o archive.o utils.o
-EXE      = tarsau
+CFLAGS   = -Wall -Wextra -std=c11 -pedantic -g -Iinclude
 
-# ---- Ana Derleme Hedefi (Slayt Sayfa 12-13) ----
-${EXE} : ${OBJS}
-	${CC} ${CFLAGS} -o ${EXE} ${OBJS}
-	@echo == Derleme islemi basari ile tamamlandi!.. ==
 
-# ---- Nesne Dosyalari ve Bagimliliklari (Slayt Sayfa 12) ----
-main.o : main.c common.h archive.h utils.h
-	${CC} ${CFLAGS} -c main.c
+SRCDIR   = src
+INCDIR   = include
+LIBDIR   = lib
+BINDIR   = bin
 
-archive.o : archive.c archive.h utils.h common.h
-	${CC} ${CFLAGS} -c archive.c
 
-utils.o : utils.c utils.h common.h
-	${CC} ${CFLAGS} -c utils.c
+EXE      = $(BINDIR)/tarsau
+OBJS     = $(LIBDIR)/main.o $(LIBDIR)/archive.o $(LIBDIR)/utils.o
 
-# ---- Temizlik Hedefi (Slayt Sayfa 12) ----
+
+
+$(EXE) : $(LIBDIR) $(BINDIR) $(OBJS)
+	$(CC) $(CFLAGS) -o $(EXE) $(OBJS)
+	@echo "== Derleme işlemi başarı ile tamamlandı!.. [Çıktı: $(EXE)] =="
+
+
+$(LIBDIR):
+	mkdir -p $(LIBDIR)
+
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+
+
+
+$(LIBDIR)/main.o : $(SRCDIR)/main.c $(INCDIR)/common.h $(INCDIR)/archive.h $(INCDIR)/utils.h
+	$(CC) $(CFLAGS) -c $(SRCDIR)/main.c -o $(LIBDIR)/main.o
+
+
+$(LIBDIR)/archive.o : $(SRCDIR)/archive.c $(INCDIR)/archive.h $(INCDIR)/utils.h $(INCDIR)/common.h
+	$(CC) $(CFLAGS) -c $(SRCDIR)/archive.c -o $(LIBDIR)/archive.o
+
+
+$(LIBDIR)/utils.o : $(SRCDIR)/utils.c $(INCDIR)/utils.h $(INCDIR)/common.h
+	$(CC) $(CFLAGS) -c $(SRCDIR)/utils.c -o $(LIBDIR)/utils.o
+
+
 clean :
-	rm -f ${OBJS} ${EXE}
-	@echo == Temizlik tamamlandi. ==
+	rm -f $(OBJS) $(EXE)
+	@echo "== Temizlik tamamlandı. =="
